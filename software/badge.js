@@ -1017,4 +1017,45 @@ Badge.apps["Flappy Bird"]=()=>{
   gameStart();
   setWatch(Badge.menu, BTN1);
 }
+Badge.apps["dateandtime"] = () => {
+  Badge.reset();
 
+  function onSecond() {
+    // Called every second
+    var t = new Date(); // get the current date and time
+    g.clear();
+
+    // Draw the time
+    g.setFontVector(30);
+    var time = t.getHours()+":"+("0"+t.getMinutes()).substr(-2);
+    var seconds = ("0"+t.getSeconds()).substr(-2);
+    g.drawString(time,95 - g.stringWidth(time),10);
+    g.setFontVector(20);
+    g.drawString(seconds,95,20);
+    // Draw the date
+    // Get the date as a string by removing the time from the end of it
+    var date = t.toString().replace(/\d\d:.*/,"");
+    g.setFontBitmap();
+    g.drawString(date,0,0);
+
+    g.flip();
+  }
+
+  function displaytime () {
+    // Call onSecond every second
+    setInterval(onSecond, 1000);
+    setWatch(Badge.menu, BTN2);
+  }
+  
+  function goBack() {
+    silence();
+    Badge.badge();
+  }
+
+  var menu = {
+    "": { title: "-- Date and Time --" },
+    "Date and Time" : displaytime,
+    "Back to Badge": goBack,
+  };
+  Pixl.menu(menu);
+};
